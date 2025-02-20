@@ -1,0 +1,85 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}WorldClass EHR{% endblock %}</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('index') }}">WorldClass EHR</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topNavbar">
+        <ul class="navbar-nav ms-auto">
+          {% if patient_id is defined %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('new_upload') }}">Upload New Report</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              Options
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="{{ url_for('analysis', patient_id=patient_id) }}">Detailed Analysis</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('settings', patient_id=patient_id) }}">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Logout</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Upload Report</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse shadow-sm">
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column">
+            {% if patient_id is defined %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('dashboard', patient_id=patient_id) }}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('patients', patient_id=patient_id) }}">Patient Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('lab_results', patient_id=patient_id) }}">Lab Results</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('notes', patient_id=patient_id) }}">Report Notes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('analysis', patient_id=patient_id) }}">Analysis</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('all_patients') }}">All Patients</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- Main Content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

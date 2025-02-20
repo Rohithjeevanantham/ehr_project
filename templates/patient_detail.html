@@ -1,0 +1,57 @@
+<!-- templates/patient_detail.html -->
+{% extends "base.html" %}
+{% block title %}Patient Details{% endblock %}
+{% block content %}
+<div class="mt-4">
+  <h2>Patient Details: {{ patient["Patient"]["Name"] }}</h2>
+  <div class="card shadow mb-3">
+    <div class="card-header">Basic Information</div>
+    <div class="card-body">
+      <p><strong>Patient ID:</strong> {{ patient["Patient"]["Lab ID"] }}</p>
+      <p><strong>Age:</strong> {{ patient["Patient"]["Age"] }}</p>
+      <p><strong>Sex:</strong> {{ patient["Patient"]["Sex"] }}</p>
+    </div>
+  </div>
+  <div class="card shadow mb-3">
+    <div class="card-header">Sample Details</div>
+    <div class="card-body">
+      <p>
+        <strong>Type:</strong>
+        {% if patient["Patient"]["Sample Details"]["Type"] %}
+          {{ patient["Patient"]["Sample Details"]["Type"] | join(', ') }}
+        {% else %}
+          N/A
+        {% endif %}
+      </p>
+      <p><strong>Collection DateTime:</strong> {{ patient["Patient"]["Sample Details"]["Collection DateTime"] }}</p>
+      <p><strong>Receipt DateTime:</strong> {{ patient["Patient"]["Sample Details"]["Receipt DateTime"] }}</p>
+    </div>
+  </div>
+  <div class="card shadow mb-3">
+    <div class="card-header">Reports History</div>
+    <div class="card-body">
+      {% for report in patient["Reports"] %}
+        <div class="mb-3">
+          <h5>Report Generated On: {{ report["Report Generated On"] }}</h5>
+          <p><strong>Test Results:</strong></p>
+          <ul>
+            {% for test in report["Lab Results"] %}
+              <li>
+                {{ test["Test Category"] }}
+                <ul>
+                  {% for comp in test["Test Components"] %}
+                    <li>{{ comp["Name"] }}</li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="text-center">
+    <a href="{{ url_for('analysis', patient_id=patient['Patient']['Lab ID']) }}" class="btn btn-success">View Detailed Analysis</a>
+  </div>
+</div>
+{% endblock %}

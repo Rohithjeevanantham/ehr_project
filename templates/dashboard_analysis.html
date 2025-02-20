@@ -1,0 +1,20 @@
+<!-- templates/dashboard_analysis.html -->
+{% extends "base.html" %}
+{% block title %}Dashboard Analysis{% endblock %}
+{% block content %}
+<div class="mt-4">
+  <h2 class="text-center">Dashboard Analysis for Patient {{ patient_id }}</h2>
+  <div class="text-center mb-3">
+    <a href="{{ url_for('dashboard', patient_id=patient_id) }}" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+  {% if charts %}
+    {% for chart in charts %}
+      <div class="mb-4">
+        {{ chart|safe }}
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-warning text-center">No lab results available to plot.</div>
+  {% endif %}
+</div>
+{% endblock %}

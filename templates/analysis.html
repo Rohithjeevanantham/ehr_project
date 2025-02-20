@@ -1,0 +1,45 @@
+<!-- templates/analysis.html -->
+{% extends "base.html" %}
+{% block title %}Detailed Analysis{% endblock %}
+{% block extra_head %}
+  <!-- Include Marked.js for Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    /* Custom styles for analysis output */
+    #analysis-container {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      padding: 20px;
+      border-radius: 5px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+<div class="mt-4">
+  <h2>Detailed Analysis for Patient {{ patient_id }}</h2>
+  <div id="analysis-container">
+    <p>Loading analysis...</p>
+  </div>
+  <div class="text-center mt-3">
+    <a href="{{ url_for('patient', patient_id=patient_id) }}" class="btn btn-secondary">Back to Patient Details</a>
+  </div>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+  // Use EventSource to stream analysis text from /analysis_stream/<patient_id>
+  var eventSource = new EventSource("/analysis_stream/" + "{{ patient_id }}");
+  var container = document.getElementById("analysis-container");
+  var analysisMarkdown = "";
+  eventSource.onmessage = function(event) {
+    analysisMarkdown += event.data + "\n";
+    container.innerHTML = marked.parse(analysisMarkdown);
+  };
+  eventSource.onerror = function(err) {
+    console.error("EventSource failed:", err);
+    eventSource.close();
+  };
+</script>
+{% endblock %}

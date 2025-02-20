@@ -1,0 +1,41 @@
+<!-- templates/notes.html -->
+{% extends "base.html" %}
+{% block title %}Report Notes{% endblock %}
+{% block content %}
+<div class="mt-4">
+  <h2>Report Notes</h2>
+  {% for report in ehr["Reports"] %}
+    <div class="card shadow mb-3">
+      <div class="card-header">
+        Report Generated On: {{ report["Report Generated On"] }}
+      </div>
+      <div class="card-body">
+        <h5>Interpretations</h5>
+        <ul>
+          {% for note in report["Report Notes"]["Interpretations"] %}
+            <li>{{ note }}</li>
+          {% endfor %}
+        </ul>
+        <h5>Comments</h5>
+        <ul>
+          {% for note in report["Report Notes"]["Comments"] %}
+            <li>{{ note }}</li>
+          {% endfor %}
+        </ul>
+        <h5>Disclaimers</h5>
+        <ul>
+          {% for note in report["Report Notes"]["Disclaimers"] %}
+            <li>{{ note }}</li>
+          {% endfor %}
+        </ul>
+        <h5>Quality Control</h5>
+        <ul>
+          {% for note in report["Report Notes"]["Quality Control"] %}
+            <li>{{ note }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

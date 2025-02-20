@@ -1,0 +1,43 @@
+<!-- templates/lab_results.html -->
+{% extends "base.html" %}
+{% block title %}Lab Results{% endblock %}
+{% block content %}
+<div class="mt-4">
+  <h2>Lab Results</h2>
+  <div class="text-center mb-3">
+    <a href="{{ url_for('dashboard_analysis', patient_id=patient_id) }}" class="btn btn-primary">Dashboard Analysis</a>
+  </div>
+  {% for report in ehr["Reports"] %}
+    <div class="card shadow mb-3">
+      <div class="card-header">
+        Report Generated On: {{ report["Report Generated On"] }}
+      </div>
+      <div class="card-body">
+        {% for test in report["Lab Results"] %}
+          <h5>{{ test["Test Category"] }}</h5>
+          <ul>
+            {% for component in test["Test Components"] %}
+              <li>
+                <strong>{{ component["Name"] }}</strong>
+                {% if component.get("SubTests") %}
+                  <ul>
+                    {% for sub in component["SubTests"] %}
+                      <li>{{ sub["Parameter"] }}: {{ sub["Value"] }} {{ sub["Unit"] }} (Ref: {{ sub["Reference Range"] }})</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+                {% if component.get("Comments") %}
+                  <p><strong>Comments:</strong> {{ component["Comments"] }}</p>
+                {% endif %}
+                {% if component.get("Interpretation") %}
+                  <p><strong>Interpretation:</strong> {{ component["Interpretation"] }}</p>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

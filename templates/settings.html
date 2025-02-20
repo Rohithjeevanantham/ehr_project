@@ -1,0 +1,26 @@
+<!-- templates/settings.html -->
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<div class="mt-4">
+  <h2>Settings</h2>
+  <div class="card shadow mb-3">
+    <div class="card-body">
+      <form method="post" action="{{ url_for('settings', patient_id=patient_id) }}">
+        <div class="mb-3">
+          <label for="notificationEmail" class="form-label">Notification Email</label>
+          <input type="email" class="form-control" id="notificationEmail" name="notificationEmail" placeholder="Enter your email">
+        </div>
+        <div class="mb-3">
+          <label for="themeSelect" class="form-label">Theme</label>
+          <select class="form-select" id="themeSelect" name="themeSelect">
+            <option selected>Light</option>
+            <option>Dark</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

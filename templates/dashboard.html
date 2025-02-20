@@ -1,0 +1,31 @@
+<!-- templates/dashboard.html -->
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="mt-4">
+  <h2>Patient EHR Dashboard</h2>
+  <div class="card shadow mb-3">
+    <div class="card-header">
+      Patient: {{ ehr["Patient"]["Name"] }} | PID: {{ ehr["Patient"]["Lab ID"] }}
+    </div>
+    <div class="card-body">
+      <p><strong>Age:</strong> {{ ehr["Patient"]["Age"] }}</p>
+      <p><strong>Sex:</strong> {{ ehr["Patient"]["Sex"] }}</p>
+      <h5 class="mt-3">Sample Details</h5>
+      <p>
+        <strong>Type:</strong>
+        {% if ehr["Patient"]["Sample Details"]["Type"] %}
+          {{ ehr["Patient"]["Sample Details"]["Type"] | join(', ') }}
+        {% else %}
+          N/A
+        {% endif %}
+      </p>
+      <p><strong>Collection DateTime:</strong> {{ ehr["Patient"]["Sample Details"]["Collection DateTime"] }}</p>
+      <p><strong>Receipt DateTime:</strong> {{ ehr["Patient"]["Sample Details"]["Receipt DateTime"] }}</p>
+    </div>
+  </div>
+  <div class="alert alert-info">
+    Use the sidebar to navigate to Patient Details, Lab Results, Report Notes, or view Detailed Analysis.
+  </div>
+</div>
+{% endblock %}

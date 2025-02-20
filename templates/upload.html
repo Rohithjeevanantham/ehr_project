@@ -1,0 +1,29 @@
+<!-- templates/upload.html -->
+{% extends "base.html" %}
+{% block title %}Upload Report{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-header text-center">
+        <h3>Upload Blood Report</h3>
+      </div>
+      <div class="card-body">
+        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="patient_id" class="form-label">Unique Patient ID</label>
+            <input type="text" class="form-control" id="patient_id" name="patient_id" placeholder="Enter Unique Patient ID" required>
+          </div>
+          <div class="mb-3">
+            <label for="file" class="form-label">Select PDF File</label>
+            <input type="file" class="form-control" id="file" name="file" accept=".pdf" required>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Upload and Process</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
