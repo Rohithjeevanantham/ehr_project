@@ -1,0 +1,10 @@
+Flask
+pdfplumber
+pdf2image
+opencv-python
+numpy
+paddlepaddle
+paddleocr
+cohere
+tqdm
+serverless-wsgi
