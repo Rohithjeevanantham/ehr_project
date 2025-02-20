@@ -1,0 +1,30 @@
+<!-- templates/all_patients.html -->
+{% extends "base.html" %}
+{% block title %}All Patients{% endblock %}
+{% block content %}
+<div class="mt-4">
+  <h2>All Patients</h2>
+  <table class="table table-striped shadow">
+    <thead>
+      <tr>
+        <th>Patient ID</th>
+        <th>Patient Name</th>
+        <th>Age</th>
+        <th>Sex</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for patient_id, patient in patients.items() %}
+      <tr>
+        <td>{{ patient_id }}</td>
+        <td>{{ patient["Patient"]["Name"] }}</td>
+        <td>{{ patient["Patient"]["Age"] }}</td>
+        <td>{{ patient["Patient"]["Sex"] }}</td>
+        <td><a href="{{ url_for('patient', patient_id=patient_id) }}" class="btn btn-sm btn-primary">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
